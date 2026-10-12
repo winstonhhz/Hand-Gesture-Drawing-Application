@@ -1,0 +1,253 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Virtual Paint</title>
+
+    <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
+
+    <style>
+
+        /* ============================================================
+           PAGE
+           ============================================================ */
+
+        body {
+            margin: 0;
+            background: #222;
+            font-family: Arial, sans-serif;
+            color: white;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            margin: 20px 0 10px;
+        }
+
+
+        /* ============================================================
+           TOOLBAR
+           ============================================================ */
+
+        #toolbar {
+            width: 640px;
+
+            background: #333;
+            border: 2px solid #555;
+
+            padding: 10px;
+
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            box-sizing: border-box;
+        }
+
+        #toolbar button {
+            padding: 8px 12px;
+
+            background: #444;
+            color: white;
+
+            border: 1px solid #666;
+            border-radius: 4px;
+
+            cursor: pointer;
+        }
+
+        #toolbar button:hover {
+            background: #555;
+        }
+
+        #toolbar button.active {
+            background: #666;
+            border: 2px solid white;
+        }
+
+
+        /* ============================================================
+           COLOR BUTTONS
+           ============================================================ */
+
+        .color-button {
+            width: 25px;
+            height: 25px;
+
+            border: 2px solid white;
+            border-radius: 50%;
+
+            padding: 0;
+
+            cursor: pointer;
+        }
+
+
+        /* ============================================================
+           BRUSH SIZE
+           ============================================================ */
+
+        #brushSize {
+            width: 100px;
+        }
+
+
+        /* ============================================================
+           CANVAS
+           ============================================================ */
+
+        #canvas-container {
+            position: relative;
+
+            width: 640px;
+            height: 480px;
+
+            margin-top: 10px;
+        }
+
+
+        /* Both canvases occupy the exact same position */
+
+        #drawingCanvas,
+        #cursorCanvas {
+            position: absolute;
+
+            top: 0;
+            left: 0;
+
+            border: 2px solid white;
+        }
+
+
+        /* The cursor canvas should not interfere with mouse input */
+
+        #cursorCanvas {
+            pointer-events: none;
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+    <h1>Virtual Paint</h1>
+
+
+    <!-- ============================================================
+         TOOLBAR
+         ============================================================ -->
+
+    <div id="toolbar">
+
+        <button id="penButton" class="active">
+            Pen
+        </button>
+
+        <button id="eraserButton">
+            Eraser
+        </button>
+
+        <button id="undoButton">
+            Undo
+        </button>
+
+        <button id="redoButton">
+            Redo
+        </button>
+
+        <button id="clearButton">
+            Clear
+        </button>
+
+
+        <!-- Color buttons -->
+
+        <button
+            class="color-button"
+            style="background: red;"
+            data-color="red">
+        </button>
+
+        <button
+            class="color-button"
+            style="background: blue;"
+            data-color="blue">
+        </button>
+
+        <button
+            class="color-button"
+            style="background: green;"
+            data-color="green">
+        </button>
+
+        <button
+            class="color-button"
+            style="background: yellow;"
+            data-color="yellow">
+        </button>
+
+        <button
+            class="color-button"
+            style="background: white;"
+            data-color="white">
+        </button>
+
+
+        <!-- Brush size -->
+
+        <label for="brushSize">
+            Size:
+        </label>
+
+        <input
+            type="range"
+            id="brushSize"
+            min="2"
+            max="30"
+            value="3">
+
+    </div>
+
+
+    <!-- ============================================================
+         CANVAS
+         ============================================================ -->
+
+    <div id="canvas-container">
+
+        <!-- Permanent drawing canvas -->
+
+        <canvas
+            id="drawingCanvas"
+            width="640"
+            height="480">
+        </canvas>
+
+
+        <!-- Temporary fingertip cursor -->
+
+        <canvas
+            id="cursorCanvas"
+            width="640"
+            height="480">
+        </canvas>
+
+    </div>
+
+
+    <!-- JavaScript -->
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+
+</html>
+

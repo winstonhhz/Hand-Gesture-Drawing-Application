@@ -45,7 +45,20 @@ The goal of this project is to provide a touch-free drawing experience without r
 
 ## 4. Project Structure
 
-- TBC..
+```text
+WebCanvas/
+├── server.py
+├── templates/
+│   └── index.html
+├── static/
+│   └── script.js
+README.md
+```
+
+- `server.py`: Accesses the webcam, processes frames, detects hand landmarks, identifies gestures, and sends hand data to the browser.
+- `templates/index.html`: Defines the web interface, toolbar, and drawing canvases.
+- `static/script.js`: Receives hand data and handles drawing, erasing, colors, brush size, and canvas interactions.
+- `README.md`: Documents the project and explains how to set it up.
 
 ## 5. How It Works
 
